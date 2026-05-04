@@ -1,6 +1,6 @@
 # ESP32 WAV Audio Player (FreeRTOS & DAC DMA)
 
-Un riproduttore audio basato su **ESP32** e framework **ESP-IDF** (C++). Il progetto legge un file WAV da una scheda MicroSD e lo riproduce tramite il DAC interno a 8-bit utilizzando l'accesso diretto alla memoria (DMA) e il clock di precisione APLL, garantendo un audio fluido e senza interruzioni.
+Un riproduttore audio basato su **ESP32** e framework **ESP-IDF** (C++). Il progetto legge un file WAV da una scheda MicroSD e lo riproduce tramite il DAC interno a 8-bit utilizzando l'accesso diretto alla memoria (DMA) , garantendo un audio fluido e senza interruzioni.
 
 L'architettura software è basata su **FreeRTOS**, con task separati per il controllo hardware (pulsante) e la riproduzione audio, sincronizzati tramite semafori binari.
 
@@ -17,7 +17,7 @@ L'architettura software è basata su **FreeRTOS**, con task separati per il cont
 * **Scheda:** ESP32 Development Board (testato su Rev 3.1)
 * **Storage:** Modulo MicroSD Card (SPI)
 * **Audio:** 
-  * Speaker/Cassa (preferibilmente amplificata o tramite modulo PAM8403 per un volume ottimale)
+  * Speaker/Cassa 
   * Condensatore elettrolitico (es. 10µF) per filtrare la corrente continua (DC blocking)
 * **Input:** Un pulsante (Push Button) normalmente aperto
 
@@ -33,25 +33,5 @@ L'architettura software è basata su **FreeRTOS**, con task separati per il cont
 | **Audio Out (DAC)** | `GPIO 25` | Collegare al polo positivo del condensatore. Il polo negativo va alla cassa. |
 | **Cassa (GND)** | `GND` | Chiusura del circuito audio |
 
-> **Nota importante sul pulsante:** Evitare di usare i GPIO di "Strapping" (come il GPIO 2) per i pulsanti di input, altrimenti l'ESP32 potrebbe non avviarsi correttamente o ignorare l'input a causa delle resistenze fisiche saldate sulla scheda.
 
-## Preparazione del file Audio (FONDAMENTALE)
-
-Il DAC interno dell'ESP32 è un convertitore a 8-bit e non può leggere file audio standard o stereo. Se carichi un file WAV normale, sentirai solo un forte rumore distorto.
-
-Usa **Audacity** (gratuito) per formattare il tuo file audio prima di metterlo sulla SD:
-1. Importa il tuo brano su Audacity.
-2. Vai su *Tracce > Mix > Mixa Stereo in Mono*.
-3. Imposta la **Frequenza di Campionamento (Project Rate)** a `16000 Hz`.
-4. Clicca su *File > Esporta audio...* e imposta:
-   * **Formato / Intestazione:** WAV (Microsoft)
-   * **Codifica:** **Unsigned 8-bit PCM** (Senza segno, fondamentale!)
-5. Rinomina il file in `audio.wav` e copialo nella cartella radice della MicroSD.
-
-## Installazione e Utilizzo
-
-Questo progetto è sviluppato con l'estensione **Espressif IDF** (v5.0 o superiore).
-
-1. Clona questo repository:
-   ```bash
-   git clone [https://github.com/TUO-NOME-UTENTE/ESP32-WAV-Player.git](https://github.com/TUO-NOME-UTENTE/ESP32-WAV-Player.git)
+Questo progetto è sviluppato con l'estensione **Espressif IDF** (v6.0 ).
