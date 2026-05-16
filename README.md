@@ -1,4 +1,4 @@
-![Foto Implementazione fisica](photos/IMG1.png)
+![Foto Implementazione fisica](photos/IMG1.jpg)
 
 # ESP32 WAV Audio Player (FreeRTOS & DAC DMA)
 
