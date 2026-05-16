@@ -1,3 +1,5 @@
+![Foto Implementazione fisica](photos/IMG1.png)
+
 # ESP32 WAV Audio Player (FreeRTOS & DAC DMA)
 
 Un riproduttore audio basato su **ESP32** e framework **ESP-IDF** (C++). Il progetto legge un file WAV da una scheda MicroSD e lo riproduce tramite il DAC interno a 8-bit utilizzando l'accesso diretto alla memoria (DMA) , garantendo un audio fluido e senza interruzioni.
@@ -8,7 +10,7 @@ L'architettura software è basata su **FreeRTOS**, con task separati per il cont
 * Lettura di file `.wav` direttamente da MicroSD tramite bus SPI.
 * Riproduzione audio asincrona gestita da DMA (Direct Memory Access).
 * Utilizzo dell'APLL clock per frequenze di campionamento precise (16000 Hz) senza crash del divisore di clock.
-* Architettura Multi-Tasking con FreeRTOS (nessun blocco della CPU).
+* Architettura Multi-Tasking con FreeRTOS.
 * Debounce hardware/software per la lettura sicura del pulsante tramite GPIO.
 * Logica orientata agli oggetti (OOP) in C++.
 
