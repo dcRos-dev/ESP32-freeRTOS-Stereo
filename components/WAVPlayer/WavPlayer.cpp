@@ -1,7 +1,7 @@
 #include "WavPlayer.h"
 #include "esp_log.h"
 #include <stdio.h>
-#include "freertos/FreeRTOS.h"
+
 
 
 static const char* TAG = "WAV_PLAYER";
@@ -50,7 +50,7 @@ bool WavPlayer::init(uint32_t sample_rate){
 
 
 
-void WavPlayer::play(const std::string& filePath){
+void WavPlayer::play(const std::string& filePath,SemaphoreHandle_t stopSemaphore){
 
     if(!isInitialized) return;
 
@@ -71,13 +71,21 @@ void WavPlayer::play(const std::string& filePath){
     size_t bytes_read;
     size_t bytes_written;
 
+    // Svuotiamo preventivamente il semaforo di stop prima di iniziare
+    // per evitare stop fantasma residui da riproduzioni precedenti
+    if (stopSemaphore != NULL) {
+        xSemaphoreTake(stopSemaphore, 0);
+    }
+
 
     // Leggiamo ciclicamente dalla microSD pezzi della traccia da riprodurre
-    while (true) {
-        bytes_read = fread(audio_buffer, 1, sizeof(audio_buffer), f);
+    while ((bytes_read = fread(audio_buffer, 1, sizeof(audio_buffer), f)) > 0) {
         
-        if (bytes_read == 0) {
-            break; 
+        if (stopSemaphore != NULL) {
+            if (xSemaphoreTake(stopSemaphore, 0) == pdTRUE) {
+                ESP_LOGI(TAG, "Rilevato comando di STOP! Interrompo la riproduzione.");
+                break; 
+            }
         }
 
         dac_continuous_write(dac_handle, audio_buffer, bytes_read, &bytes_written, portMAX_DELAY);

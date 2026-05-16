@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include "driver/dac_continuous.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/semphr.h"
 
 class WavPlayer
 {
@@ -20,6 +22,7 @@ public:
 
     // Passiamo la reference dell filePath della canzone da riprodurre
     // Cosi evitiamo di allocare memoria inutile copiando il path per intero
-    void play(const std::string& filePath);
+    // Update 16/05/26: aggiungo anche stopSemaphor per implementare il service ble per stoppare la musica
+    void play(const std::string& filePath, SemaphoreHandle_t stopSemaphore);
 };
 
